@@ -18,7 +18,7 @@ public class Laserbig {
 		    int wLines = 1;
 		    while (sc.hasNextLine()) {
 		        String line = sc.nextLine();
-		        
+		        //The first 15 lines are just configuration info.
 		        if(currentLine > 15 && !endOfFile){
 		        	
 		        	if(line.equalsIgnoreCase("z0")){
@@ -47,7 +47,7 @@ public class Laserbig {
 				    	}
 			    	}
 		        	
-		    	}else{//imprime las primeras y las ultimas
+		    	}else{//Writes to file the initial and final lines(not important to the printin process.)
 		    		if(line.contains("Total File Lines")){
 		    			writer.println("(Total File Lines = "+wLines+" )");
 		    		}else{
