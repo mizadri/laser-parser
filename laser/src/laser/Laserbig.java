@@ -40,6 +40,9 @@ public class Laserbig {
 				    		wLines++;
 				    		
 				    	}else{
+				    		if(numberBlock){
+				    			writer.println("z0");
+				    		}
 				    		numberBlock = false;		    		
 				    	}
 			    	}
