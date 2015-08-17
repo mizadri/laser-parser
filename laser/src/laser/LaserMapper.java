@@ -1,16 +1,23 @@
 package laser;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
-public class Laserbig {
+public class LaserMapper {
 
-	public static void main(String[] args) throws IOException {
-	
-		try(PrintWriter writer = new PrintWriter("lasermap.nc", "UTF-8");
-				FileInputStream inputStream = new FileInputStream("data.in");
+	public static void main( String[] args )
+    {
+		String file = getFileByExtension();
+		System.out.println(file);
+		String[] tokens = file.split("\\.(?=[^\\.]+$)");
+		System.out.println(tokens[0]);
+		try(PrintWriter writer = new PrintWriter(tokens[0]+".nc", "UTF-8");
+				FileInputStream inputStream = new FileInputStream(file);
 				Scanner sc = new Scanner(inputStream, "UTF-8");) {
 		    boolean endOfFile = false;
 		    boolean numberBlock = false;
@@ -60,7 +67,49 @@ public class Laserbig {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+    	
+    }
+	
+	public static String getFileByExtension(){
+		// inner class, generic extension filter
+		class GenericExtFilter implements FilenameFilter {
+
+			private String ext;
+
+			public GenericExtFilter(String ext) {
+				this.ext = ext;
+			}
+
+			public boolean accept(File dir, String name) {
+				return (name.endsWith(ext));
+			}
+		}
+		
+		String ext = ".in";
+		String folder = Paths.get(".").toAbsolutePath().normalize().toString();
+		String temp = null;
+		
+		GenericExtFilter filter = new GenericExtFilter(ext);
+
+		File dir = new File(folder);
+		
+		if(dir.isDirectory()==false){
+			System.out.println("Directory does not exists : " + folder);
+		}
+		
+		// list out all the file name and filter by the extension
+		String[] list = dir.list(filter);
+
+		if (list.length == 0) {
+			System.out.println("no files end with : " + ext);
+		}
+
+		//returns the first file with specified extension
+		for (String file : list) {	 
+			return file;
+		}
+		return temp;
 		
 	}
-
+	
 }
